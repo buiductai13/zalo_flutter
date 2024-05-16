@@ -1,0 +1,81 @@
+import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class FriendRequestButton extends StatefulWidget {
+  final String userId; // Assuming you have a user ID for the friend
+
+  const FriendRequestButton({Key? key, required this.userId}) : super(key: key);
+
+  @override
+  _FriendRequestButtonState createState() => _FriendRequestButtonState();
+}
+
+class _FriendRequestButtonState extends State<FriendRequestButton> {
+  bool isRequestSent = false;
+
+  // Check if friend request already exists
+  Future<bool> checkFriendRequestExists() async {
+    // Implement your logic to check if a friend request exists in Firestore
+    // You might want to use the user's ID and the friend's ID to uniquely identify requests
+    // For example, you could use a collection 'friend_requests' and document IDs like 'user1_user2'
+    // This is just a placeholder, replace it with your actual logic
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
+        .collection('friend_requests')
+        .where('senderId', isEqualTo: 'yourUserId')
+        .where('receiverId', isEqualTo: widget.userId)
+        .get();
+
+    return querySnapshot.docs.isNotEmpty;
+  }
+
+  // Send friend request
+  Future<void> sendFriendRequest() async {
+    // Implement your logic to send a friend request to Firestore
+    // This is just a placeholder, replace it with your actual logic
+    await FirebaseFirestore.instance.collection('friend_requests').add({
+      'senderId': 'yourUserId',
+      'receiverId': widget.userId,
+      'timestamp': FieldValue.serverTimestamp(),
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Check if a friend request has already been sent
+    checkFriendRequestExists().then((exists) {
+      setState(() {
+        isRequestSent = exists;
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        if (!isRequestSent) {
+          // If request not sent, send the request
+          sendFriendRequest();
+          setState(() {
+            isRequestSent = true;
+          });
+        }
+      },
+      child: Text(isRequestSent ? 'Request Sent' : 'Send Request'),
+    );
+  }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: Scaffold(
+      appBar: AppBar(
+        title: Text('Friend Request Button'),
+      ),
+      body: Center(
+        child: FriendRequestButton(userId: 'friendUserId'),
+      ),
+    ),
+  ));
+}

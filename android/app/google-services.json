@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "24024320121",
+    "firebase_url": "https://zalo-chat-28514-default-rtdb.firebaseio.com",
+    "project_id": "zalo-chat-28514",
+    "storage_bucket": "zalo-chat-28514.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:24024320121:android:b5ea353e76e6680b192ca8",
+        "android_client_info": {
+          "package_name": "com.example.zalochat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfrx7rkWi2LyzUE-ynlUTzk6tPfmID74Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
